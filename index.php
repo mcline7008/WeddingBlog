@@ -1,6 +1,6 @@
 <?php require('includes/config.php'); ?>
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,7 +11,7 @@
 <body>
 <h1>This is the Cline Bird Wedding Blog</h1>
 
-<div class="blogPosts"> -->
+<div class="blogPosts">
 
 <?php
 	try {
@@ -21,7 +21,7 @@
 			echo '<h1><a href="viewpost.php?id=' . $row['postID'] . '">' . $row['postTitle'] . '</a></h1>';
 			echo '<p>Posted on '.date('jS M Y H:i:s', strtotime($row['postDate'])).'</p>';
 			echo '<p>'.$row['postDesc'].'</p>';
-			echo '<p><ahref="viewpost.php?id='.$row['postID'].'">Read More</a></p>';
+			echo '<p><a href="viewpost.php?id='.$row['postID'].'">Read More</a></p>';
 			echo '</div>';
 		}
 
@@ -32,6 +32,6 @@
 
 ?>
 
-<!-- </div>
+</div>
 </body>
-</html> -->
+</html>

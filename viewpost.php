@@ -1,3 +1,5 @@
+<?php require('./includes/config.php'); ?>
+
 <?php
 	$stmt = $db->prepare('SELECT postID, postTItle, postCont, postDate From blog_posts WHERE postID = :postID');
 	$stmt->execute(array(':postID' => $_GET['id']));
@@ -14,4 +16,6 @@
 	echo '<div>';
 		echo '<p>Posted on '.date('jS M Y', strtotime($row['postDate'])).'</p>';
 		echo '<p>'.$row['postCont'].'</p>';
-	echo '</div>'
+	echo '</div>';
+
+?>
