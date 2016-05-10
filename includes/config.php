@@ -8,14 +8,21 @@ define('DBUSER', 'matthew');
 define('DBPASS', 'yOwl6emu!7008');
 define('DBNAME', 'wedding_blog');
 
-$db = new PDO("mysql:host=".DBHOST.";port=8889;dbname=".DBNAME, DBUSER, DBPASS);
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try{
+	$db = new PDO("mysql:host=".DBHOST.";dbname=".DBNAME, DBUSER,DBPASS);
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	echo "<!-- Connected Successfully -->";
+}catch (PDOException $e)
+{
+	echo "Connection failed: " . $e->getMessage();
+}
 
 //set the default timezone
 date_default_timezone_set('Europe/London');
 
 //Load classes as needed
 function __autoload($class){
+	
 	$class = strtolower($class);
 
 	// If the call is from within assets
@@ -37,6 +44,6 @@ function __autoload($class){
 	}
 }
 
-$user = new User($db);
+//$user = new User($db);
 
 ?>
