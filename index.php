@@ -1,3 +1,18 @@
+<?php require('includes/config.php'); ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Cline Bird Wedding</title>
+</head>
+
+<body>
+<h1>This is the Cline Bird Wedding Blog</h1>
+
+<div class="blogPosts">
+
 <?php
 	try {
 		$stmt = $db->query('SELECT postID, postTitle, postDesc, postDate FROM blog_posts ORDER BY postID DESC');
@@ -17,3 +32,6 @@
 
 ?>
 
+</div>
+</body>
+</html>

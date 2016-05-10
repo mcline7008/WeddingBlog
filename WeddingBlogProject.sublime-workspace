@@ -1,0 +1,272 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<?php require('includes/config.php'); ?>\n\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n	<meta charset=\"utf-8\">\n	<title>Cline Bird Wedding</title>\n</head>\n\n<body>\n<h1>This is the Cline Bird Wedding Blog</h1>\n\n<div class=\"blogPosts\">\n\n<?php\n	try {\n		$stmt = $db->query('SELECT postID, postTitle, postDesc, postDate FROM blog_posts ORDER BY postID DESC');\n		while($row = $stmt->fetch()){\n			echo '<div>';\n			echo '<h1><a href=\"viewpost.php?id='.$row['postID'].'\">'.$row['postTitle'].'</a></h1>';\n			echo '<p>Posted on '.date('jS M Y H:i:s', strtotime($row['postDate'])).'</p>';\n			echo '<p>'.$row['postDesc'].'</p>';\n			echo '<p><ahref=\"viewpost.php?id='.$row['postID'].'\">Read More</a></p>';\n			echo '</div>'\n		}\n\n	}catch (PDOException $e)\n	{\n		echo $e->getMessage();\n	}\n\n?>\n\n</div>\n</body>\n</html>",
+			"file": "index.php",
+			"file_size": 755,
+			"file_write_time": 131073605471032116,
+			"settings":
+			{
+				"buffer_size": 792,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php\nob_start();\nsession_start();\n\n//database credentials\ndefine('DBHOST', 'localhost');\ndefine('DBUSER', 'matthew');\ndefine('DBPASS', 'yOwl6emu!7008');\ndefine('DBNAME', 'wedding_blog');\n\n$db = new PDO(\"mysql:host=\".DBHOST.\";port=8889;dbname=\".DBNAME, DBUSER, DBPASS);\n$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n\n//set the default timezone\ndate_default_timezone_set('Europe/London');\n\n//Load classes as needed\nfunction __autoload($class){\n	\n	$class = strtolower($class);\n\n	// If the call is from within assets\n	$classpath = 'classes/class.'.$class . '.php';\n	if(file_exists($classpath)){\n		require_once $classpath;\n	}\n\n	// If the call is from withing admin\n	$classpath = '../classes/class.' . $class . '.php';\n	if ( file_exists($classpath)){\n		require_once $classpath;\n	}\n\n	// If the call is from within admin subfolder\n	$classpath = '../../classes/class.' . $class . '.php';\n	if ( file_exists($classpath)){\n		require_once $classpath;\n	}\n}\n\n$user = new User($db);\n\n?>\n",
+			"file": "includes/config.php",
+			"file_size": 986,
+			"file_write_time": 131073611016026626,
+			"settings":
+			{
+				"buffer_size": 988,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "package control",
+		"selected_items":
+		[
+			[
+				"package control",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 153.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/matthew/Projects/WeddingBlog",
+		"/home/matthew/Projects/WeddingBlog/includes"
+	],
+	"file_history":
+	[
+		"/home/matthew/Projects/WeddingBlog/config.php",
+		"/home/matthew/Projects/WeddingBlog/viewpost.php",
+		"/home/matthew/Projects/WeddingBlog/test.php",
+		"/home/matthew/Projects/WeddingBlog/README.md",
+		"/home/matthew/Projects/WeddingBlog/index.php",
+		"/home/matthew/GoogleDrive/Untitled"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 792,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								765,
+								765
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "includes/config.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 988,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								462,
+								462
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "WeddingBlogProject",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
