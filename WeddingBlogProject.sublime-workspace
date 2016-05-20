@@ -3,30 +3,85 @@
 	{
 		"selected_items":
 		[
+			[
+				"del",
+				"deluser"
+			],
+			[
+				"Fet",
+				"FETCH_ASSOC"
+			],
+			[
+				"F",
+				"FETCH_ASSOC"
+			],
+			[
+				"ATTR",
+				"ATTR_DEFAULT_FETCH_MODE"
+			],
+			[
+				"quer",
+				"msql_query"
+			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": "<?php require('includes/config.php'); ?>\n\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n	<meta charset=\"utf-8\">\n	<title>Cline Bird Wedding</title>\n</head>\n\n<body>\n<h1>This is the Cline Bird Wedding Blog</h1>\n\n<div class=\"blogPosts\">\n\n<?php\n	try {\n		$stmt = $db->query('SELECT postID, postTitle, postDesc, postDate FROM blog_posts ORDER BY postID DESC');\n		while($row = $stmt->fetch()){\n			echo '<div>';\n			echo '<h1><a href=\"viewpost.php?id='.$row['postID'].'\">'.$row['postTitle'].'</a></h1>';\n			echo '<p>Posted on '.date('jS M Y H:i:s', strtotime($row['postDate'])).'</p>';\n			echo '<p>'.$row['postDesc'].'</p>';\n			echo '<p><ahref=\"viewpost.php?id='.$row['postID'].'\">Read More</a></p>';\n			echo '</div>'\n		}\n\n	}catch (PDOException $e)\n	{\n		echo $e->getMessage();\n	}\n\n?>\n\n</div>\n</body>\n</html>",
-			"file": "index.php",
-			"file_size": 755,
-			"file_write_time": 131073605471032116,
+			"file": "includes/config.php",
 			"settings":
 			{
-				"buffer_size": 792,
+				"buffer_size": 1102,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "<?php\nob_start();\nsession_start();\n\n//database credentials\ndefine('DBHOST', 'localhost');\ndefine('DBUSER', 'matthew');\ndefine('DBPASS', 'yOwl6emu!7008');\ndefine('DBNAME', 'wedding_blog');\n\n$db = new PDO(\"mysql:host=\".DBHOST.\";port=8889;dbname=\".DBNAME, DBUSER, DBPASS);\n$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n\n//set the default timezone\ndate_default_timezone_set('Europe/London');\n\n//Load classes as needed\nfunction __autoload($class){\n	\n	$class = strtolower($class);\n\n	// If the call is from within assets\n	$classpath = 'classes/class.'.$class . '.php';\n	if(file_exists($classpath)){\n		require_once $classpath;\n	}\n\n	// If the call is from withing admin\n	$classpath = '../classes/class.' . $class . '.php';\n	if ( file_exists($classpath)){\n		require_once $classpath;\n	}\n\n	// If the call is from within admin subfolder\n	$classpath = '../../classes/class.' . $class . '.php';\n	if ( file_exists($classpath)){\n		require_once $classpath;\n	}\n}\n\n$user = new User($db);\n\n?>\n",
-			"file": "includes/config.php",
-			"file_size": 986,
-			"file_write_time": 131073611016026626,
+			"file": "Admin/logout.php",
 			"settings":
 			{
-				"buffer_size": 988,
+				"buffer_size": 100,
+				"line_ending": "Unix",
+				"name": "<?php"
+			}
+		},
+		{
+			"contents": "<?php\n//Admin/users.php - page to manage the users of the blog.\n\n// Include Config\nrequire_once('../includes/config.php');\n\n// If not logged in, redirect\nif(!user->is_logged_in()){header('Location: login.php')}\n\nif(isset($_GET['deluser']))\n{\n	// If userid is 1 ignore\n	if($_GET['deluser'] != '1')\n	{\n		$stmt = $db->prepare('DELETE FROM blog_members WHERE memberID = :memberID');\n		$stmt->execute(array(':memberID' => $_GET['deluser']));\n\n		header('Location: users.php?action=deleted');\n		exit;\n	}\n}\n?>\n\n<!DOCTYPE html>\n<html lang=\"en\">\n	<head>\n		<meta charset=\"utf-8\">\n		<title>\n			Admin - Users\n		</title>\n		<script language=\"JavaScript\" type=\"text/javascript\">\n			function deluser(id, title)\n			{\n				if (confirm(\"Are you sure you want to delete '\" + title + \"'\"))\n				{\n					window.location.href = 'users.php?deluser=' + id;\n				}\n			}\n		</script>\n	</head>\n	<body>\n		<div id=\"wrapper\">\n		<?php\n			\n		?>\n		</div>\n	</body>\n</html>",
+			"file": "Admin/users.php",
+			"file_size": 215,
+			"file_write_time": 131073769586534203,
+			"settings":
+			{
+				"buffer_size": 931,
+				"line_ending": "Unix",
+				"name": "<?php"
+			}
+		},
+		{
+			"file": "classes/class.user.php",
+			"settings":
+			{
+				"buffer_size": 1413,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php\n	require_once('../includes/config.php');\n?>\n\n<form action=\"\" method=\"post\">\n<p><label>Username</label><input type=\"text\" name=\"username\" value=\"\" /></p>\n<p><label>Password</label><input type=\"text\" name=\"password\" value=\"\" /></p>\n<p><label</label><input type=\"submit\" name=\"submit\" value=\"Login\" /></p>\n\n<?php\n	if(isset($_POST['submit'])){\n		$username = trim($_POST['username']);\n		$password = trim($_POST['password']);\n\n		if($user->login($usernam, $password)){\n			header('Location: index.php');\n			exit;\n		}\n		else\n		{\n			$message = '<p class=:error\">Wrong username or password</p>';\n		}\n	}\n\n	if (isset($message)){echo $message;}\n?>\n",
+			"file": "Admin/login.php",
+			"file_size": 703,
+			"file_write_time": 131073753315240939,
+			"settings":
+			{
+				"buffer_size": 640,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Admin/index.php",
+			"settings":
+			{
+				"buffer_size": 258,
+				"line_ending": "Unix",
+				"name": "<!DOCTYPE html>"
 			}
 		}
 	],
@@ -37,10 +92,26 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "package control",
+		"height": 92.0,
+		"last_filter": "git: push",
 		"selected_items":
 		[
+			[
+				"git: push",
+				"Git: Push"
+			],
+			[
+				"git: co",
+				"Git: Commit"
+			],
+			[
+				"git: add",
+				"Git: Add All"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
 			[
 				"package control",
 				"Package Control: Install Package"
@@ -76,15 +147,18 @@
 	"expanded_folders":
 	[
 		"/home/matthew/Projects/WeddingBlog",
+		"/home/matthew/Projects/WeddingBlog/classes",
 		"/home/matthew/Projects/WeddingBlog/includes"
 	],
 	"file_history":
 	[
-		"/home/matthew/Projects/WeddingBlog/config.php",
-		"/home/matthew/Projects/WeddingBlog/viewpost.php",
-		"/home/matthew/Projects/WeddingBlog/test.php",
+		"/home/matthew/Projects/WeddingBlog/classes/class.user.php",
 		"/home/matthew/Projects/WeddingBlog/README.md",
+		"/home/matthew/Projects/WeddingBlog/viewpost.php",
 		"/home/matthew/Projects/WeddingBlog/index.php",
+		"/home/matthew/Projects/WeddingBlog/test.php",
+		"/home/matthew/Projects/WeddingBlog/includes/config.php",
+		"/home/matthew/Projects/WeddingBlog/config.php",
 		"/home/matthew/GoogleDrive/Untitled"
 	],
 	"find":
@@ -120,24 +194,140 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "index.php",
+					"file": "includes/config.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 792,
+						"buffer_size": 1102,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								765,
-								765
+								1075,
+								1075
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 114.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Admin/logout.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 100,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								100,
+								100
+							]
+						],
+						"settings":
+						{
+							"auto_name": "<?php",
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Admin/users.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								900,
+								900
+							]
+						],
+						"settings":
+						{
+							"auto_name": "<?php",
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "classes/class.user.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1413,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								366,
+								366
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 434.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Admin/login.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 640,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								49,
+								49
 							]
 						],
 						"settings":
@@ -149,35 +339,36 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "includes/config.php",
+					"buffer": 5,
+					"file": "Admin/index.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 988,
+						"buffer_size": 258,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								462,
-								462
+								108,
+								108
 							]
 						],
 						"settings":
 						{
+							"auto_name": "<!DOCTYPE html>",
 							"syntax": "Packages/PHP/PHP.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -215,6 +406,14 @@
 	},
 	"menu_visible": true,
 	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 124.0
+	},
+	"output.xdebug":
 	{
 		"height": 0.0
 	},
@@ -257,7 +456,42 @@
 	{
 		"xdebug":
 		{
-			"hide_conflict": false
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"15":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"16":
+				{
+					"group": 0,
+					"index": 1
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			}
 		}
 	},
 	"show_minimap": true,

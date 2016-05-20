@@ -1,6 +1,5 @@
 <?php
 	require_once('../includes/config.php');
-	if(!$user->is_loggid_in()){header('Location: login.php');}
 ?>
 
 <form action="" method="post">
